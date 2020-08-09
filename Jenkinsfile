@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                container('maven') {
+                container('jnlp') {
                     sh 'sleep 60m'
                 }
             }
