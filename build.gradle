@@ -1,0 +1,62 @@
+buildscript {
+    repositories {
+        maven { url 'http://nexus-sh.chinacsci.com/repository/maven-public/' }
+    }
+    dependencies {
+        classpath 'io.spring.gradle:dependency-management-plugin:1.0.0.RELEASE'
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.1.6.RELEASE'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'org.springframework.boot'
+
+bootJar {
+    mainClassName = 'example.ApiApplication'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+repositories {
+    maven { url 'http://nexus-sh.chinacsci.com/repository/maven-public/' }
+}
+
+dependencyManagement {
+    imports {
+//        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Greenwich.SR2'
+        mavenBom "org.springframework.boot:spring-boot-dependencies:2.1.6.RELEASE"
+    }
+}
+
+dependencies {
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation('org.springframework.boot:spring-boot-starter-actuator')
+    implementation('org.projectlombok:lombok')
+
+    testImplementation('junit:junit')
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+
+    annotationProcessor('org.projectlombok:lombok')
+
+    testAnnotationProcessor('org.projectlombok:lombok')
+}
+
+test {
+//    exclude 'com/chinacsci/smb/loansys/**/test/**'
+}
+
+task cleanOut(type: Delete) {
+    delete "${projectDir}/out"
+}
