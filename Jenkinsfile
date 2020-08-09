@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                container('jnlp') {
+                container('helm') {
                     echo 'Hello, World'
                     sh 'sleep 60m'
                 }
